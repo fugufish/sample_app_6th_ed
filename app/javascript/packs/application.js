@@ -16,3 +16,16 @@ import "bootstrap"
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+import { Application } from "stimulus"
+import { definitionsFromContext } from "stimulus/webpack-helpers"
+
+const application = Application.start();
+
+// requires all of the controllers in the app/components directory.
+const componentContext = require.context("../../components/", true, /(.*)\/.+\.js$/);
+application.load(definitionsFromContext(componentContext));
+
+// requires all of the controllers in the app/javascripts/controllers directory
+const controllerContext = require.context("../controllers", true, /(.*)\/.+\.js$/);
+application.load(definitionsFromContext(controllerContext));
