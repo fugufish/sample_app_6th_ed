@@ -6,6 +6,13 @@ class MicropostsController < ApplicationController
     @micropost = current_user.microposts.build(micropost_params)
     @micropost.image.attach(params[:micropost][:image])
     if @micropost.save
+      current_user.followers.each do |follower|
+        MicropostFeedChannel.broadcast_to(
+            follower,
+            content: render_to_string(Feed::Micropost::Component.new(micropost: @micropost))
+        )
+
+      end
       flash[:success] = "Micropost created!"
       redirect_to root_url
     else

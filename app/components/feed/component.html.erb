@@ -1,5 +1,7 @@
-<ol class="microposts">
-  <%= render  Feed::Micropost::Component.with_collection(microposts)%>
-</ol>
-<%= will_paginate microposts,
-                  params: { controller: :static_pages, action: :home } %>
+<div data-controller="feed--component">
+  <ol class="microposts" data-target="feed--component.micropostList">
+    <%= render Feed::Micropost::Component.with_collection(microposts) %>
+  </ol>
+  <%= will_paginate microposts,
+                    params: { controller: :static_pages, action: :home } %>
+</div>
